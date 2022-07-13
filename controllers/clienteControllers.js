@@ -1,9 +1,11 @@
 import Cliente from '../models/Cliente.js'
 
 const registrar = async(req, res) => {
+    const cliente = new Cliente(req.body);
+
     try {
-        const cliente = new Cliente(req.body);
         const clienteGuardado = await cliente.save();
+        res.json(clienteGuardado)
     } catch (error) {
         console.log(error);
     }
@@ -14,6 +16,13 @@ const consultar = async (req, res) => {
 
     res.json(clientes)
 };
+
+const clientesVendedor = async (req, res) => {
+    const { id } = req.params;
+    const clientes = await Cliente.find({vendedor: id})
+    res.json(clientes)
+};
+
 const consultarCliente = async (req, res) => {
     const { id } = req.params;
     const cliente = await Cliente.findById(id);
@@ -21,8 +30,51 @@ const consultarCliente = async (req, res) => {
     res.json(cliente)
 };
 
+const actualizarCliente = async (req, res) => {
+    const { id } = req.params;
+    const cliente = await Cliente.findById(id);
+
+    if(!cliente) {
+        return res.status(404).json({msg: 'No Encontrado'});
+    }
+    cliente.nombre = req.body.nombre || cliente.nombre
+    cliente.apellido = req.body.apellido || cliente.apellido
+    cliente.telefono = req.body.telefono || cliente.telefono
+    cliente.direccion = req.body.direccion || cliente.direccion
+    cliente.nombreNegocio = req.body.nombreNegocio || cliente.nombreNegocio
+    cliente.email = req.body.email || cliente.email
+    cliente.genero = req.body.genero || cliente.genero
+    cliente.vendedor = req.body.vendedor || cliente.vendedor
+
+    try {
+        const clienteActualizado = await cliente.save();
+        res.json(clienteActualizado)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const eliminarCliente = async (req, res) => {
+    const { id } = req.params;
+    const cliente = await Cliente.findById(id);
+
+    if(!cliente) {
+        return res.status(404).json({msg: 'No Encontrado'});
+    }
+
+    try {
+        await cliente.deleteOne();
+        res.json({msg: 'Cliente Eliminado'})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export {
     registrar,
     consultar,
-    consultarCliente
+    consultarCliente,
+    actualizarCliente,
+    eliminarCliente,
+    clientesVendedor
 }
