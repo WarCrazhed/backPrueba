@@ -25,6 +25,10 @@ const productoSchema = mongoose.Schema({
         required: true,
         trim: true,
       },
+      preCompra: {
+        type: Number,
+        trim: true,
+      },
       tipoProducto: {
         type: "string",
         required: true,
