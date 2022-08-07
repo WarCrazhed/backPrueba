@@ -4,8 +4,9 @@ import { registrar, consultar, consultarCliente, actualizarCliente, eliminarClie
 
 router.post('/', registrar)
 router.get('/', consultar)
-//router.get('/:id', consultarCliente)
-router.post('/:id', actualizarCliente)
+router.get('/cliente/:id', consultarCliente)
+router.post('/modificar/', actualizarCliente)
+//router.post('/:id', actualizarCliente)
 router.delete('/:id', eliminarCliente)
 router.get('/:id', clientesVendedor)
 

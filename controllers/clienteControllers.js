@@ -1,6 +1,8 @@
 import Cliente from '../models/Cliente.js'
 
 const registrar = async(req, res) => {
+/*     console.log(req.body);
+    return; */
     const cliente = new Cliente(req.body);
 
     try {
@@ -31,8 +33,12 @@ const consultarCliente = async (req, res) => {
 };
 
 const actualizarCliente = async (req, res) => {
-    const { id } = req.params;
-    const cliente = await Cliente.findById(id);
+    //const { id } = req.params;
+    console.log(req.body);
+
+    const { _id } = req.body;
+
+    const cliente = await Cliente.findById(_id);
 
     if(!cliente) {
         return res.status(404).json({msg: 'No Encontrado'});

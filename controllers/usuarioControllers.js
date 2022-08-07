@@ -48,6 +48,12 @@ const login = async (req, res) => {
     res.json(usuario);
 }
 
+const consultar = async (req, res) => {
+    const usuarios = await Usuario.find()
+
+    res.json(usuarios)
+}
+
 export {
-    nuevoUsuario, login
+    nuevoUsuario, login, consultar
 }
